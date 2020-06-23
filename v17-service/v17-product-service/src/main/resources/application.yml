@@ -1,0 +1,23 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/v17?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=false
+    username: root
+    password: ~
+mybatis:
+  mapper-locations: classpath:/com/yf/mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+dubbo:
+  application:
+    name: product-service
+  registry:
+    protocol: zookeeper
+    address: 192.168.149.128:2181
+  protocol:
+    port: 28810
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true

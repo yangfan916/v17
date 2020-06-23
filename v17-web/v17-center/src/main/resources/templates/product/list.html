@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<!--suppress ALL-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <base href="/" />
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/uploadifive.css">
+</head>
+<body>
+    <!--展示商品的列表页面-->
+    <div class="container-fluid">
+        <!--展示开头的按钮-->
+        <div class="row">
+            <div class="col-md-4 col-md-offset-8">
+                <button type="button" class="btn btn-primary" id="to_add">添加</button>
+                <button type="button" class="btn btn-danger">删除</button>
+            </div>
+        </div>
+        <!--展示表格-->
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-hover">
+                    <tr>
+                        <td>ID</td>
+                        <td>商品分类</td>
+                        <td>名称</td>
+                        <td>价格</td>
+                        <td>图片</td>
+                        <td>操作</td>
+                    </tr>
+                    <tr th:each="pro : ${page.list}">
+                        <td th:text="${pro.id}">1</td>
+                        <td th:text="${pro.typeName}">电子数码</td>
+                        <td th:text="${pro.name}">mate40</td>
+                        <td th:text="${pro.salePrice}">4999</td>
+                        <td>
+                            <img src="#" th:src="${pro.images}" style="width: 200px;height: 200px">
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary btn-sm">修改</button>
+                            <button type="button" class="btn btn-danger btn-sm">删除</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!--展示分页栏-->
+        <div class="row">
+            <div class="col-md-6">
+                当前第<span th:text="${page.pageNum}"></span>页，
+                共<span th:text="${page.total}"></span>条记录，
+                共<span th:text="${page.pages}"></span>页
+            </div>
+            <div class="col-md-6">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li>
+                            <a href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+
+                        <li th:each="num : ${page.navigatepageNums}" th:class="${num == page.pageNum ? 'active' : ''}">
+                            <a href="#" th:href="|product/page/${num}/${page.pageSize}|" th:text="${num}">1</a>
+                        </li>
+
+                        <li>
+                            <a href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="addModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">添加商品</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" action="product/add" method="post" id="addFormData">
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2 control-label">商品名称</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="name" name="product.name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="price" class="col-sm-2 control-label">商品价格</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="price" name="product.price">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="salePrice" class="col-sm-2 control-label">折扣价格</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="salePrice" name="product.salePrice">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="images" class="col-sm-2 control-label">商品图片</label>
+                            <div class="col-sm-10">
+                                <input id="file_upload" type="file" name="file">
+                                <img src="#" id="showImage" style="width: 100px;height: 100px;display: none ">
+                                <input type="hidden" class="form-control" id="images" name="product.images">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="salePoint" class="col-sm-2 control-label">卖点</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="salePoint" name="product.salePoint">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="type_id" class="col-sm-2 control-label">商品类别</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="type_id" value="1" name="product.typeId">
+                                <input type="text" class="form-control" id="type_name" value="电子数码" name="product.typeName">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="productDescEdit" class="col-sm-2 control-label">商品描述</label>
+                            <div class="col-sm-10" id="productDescEdit">
+                                <p>输入商品描述信息......</p>
+                            </div>
+                            <input id="productDesc" type="hidden" name="productDesc">
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="add">Save changes</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+
+    <script src="js/jquery.uploadifive.js" type="text/javascript"></script>
+
+    <script src="https://unpkg.com/wangeditor@3.1.1/release/wangEditor.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+
+            //初始化上传按钮
+            $("#file_upload").uploadifive({
+                'buttonText' :'文件上传',
+                uploadScript: "file/upload",
+                fileObjName : "file",
+                onUploadComplete: function (file, data) {
+                    alert("The file " + file.name + " uploaded successfully.");
+                    //console.log(data);
+                    var result = JSON.parse(data);
+                    //图片的回显
+                    $("#showImage").attr("src", result.data);
+                    $("#showImage").show();
+                    //给隐藏域赋值，作为数值上传
+                    $("#images").val(result.data)
+                }
+            });
+
+            $("#to_add").click(function () {
+                $('#addModal').modal({
+                    backdrop: "static",
+                    keyboard: false  //禁止按 esc 键退出模态框
+                });
+            });
+            //添加商品
+            $("#add").click(function () {
+                //获取富文本框的内容，填充隐藏域 读取 html
+                $("#productDesc").val(editor.txt.html())
+                $("#addFormData").submit();
+            })
+
+            //初始化富文本框
+            var E = window.wangEditor;
+            var editor = new E('#productDescEdit');
+            // 自定义菜单配置
+            editor.customConfig.menus = [
+                'head',  // 标题
+                'bold',  // 粗体
+                'fontSize',  // 字号
+                'fontName',  // 字体
+                'italic',  // 斜体
+                'underline',  // 下划线
+                'foreColor',  // 文字颜色
+                'backColor',  // 背景颜色
+                'link',  // 插入链接
+                'emoticon',  // 表情
+                'image',  // 插入图片
+                'undo',  // 撤销
+                'redo'  // 重复
+            ];
+            editor.customConfig.uploadFileName = 'files'
+            // 配置服务器端地址
+            editor.customConfig.uploadImgServer = 'file/batchFileUpLoad'
+            editor.create();
+
+        })
+    </script>
+</body>
+</html>
