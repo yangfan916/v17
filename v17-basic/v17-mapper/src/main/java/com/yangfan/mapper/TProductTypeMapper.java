@@ -1,17 +1,8 @@
 package com.yangfan.mapper;
 
+import com.yangfan.common.base.IBaseDao;
 import com.yangfan.entity.TProductType;
 
-public interface TProductTypeMapper {
-    int deleteByPrimaryKey(Integer id);
+public interface TProductTypeMapper extends IBaseDao<TProductType> {
 
-    int insert(TProductType record);
-
-    int insertSelective(TProductType record);
-
-    TProductType selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(TProductType record);
-
-    int updateByPrimaryKey(TProductType record);
 }

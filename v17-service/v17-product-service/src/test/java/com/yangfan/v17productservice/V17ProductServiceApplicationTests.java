@@ -3,7 +3,9 @@ package com.yangfan.v17productservice;
 import com.github.pagehelper.PageInfo;
 import com.yangfan.api.vo.ProductVO;
 import com.yangfan.entity.TProduct;
+import com.yangfan.entity.TProductType;
 import com.yangfan.v17productservice.service.ProductServiceImpl;
+import com.yangfan.v17productservice.service.ProductTypeServiceImpl;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.sql.DataSource;
+import java.sql.SQLException;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -23,6 +27,17 @@ public class V17ProductServiceApplicationTests {
 
     @Autowired
     private ProductServiceImpl productServiceImpl;
+
+    @Autowired
+    private ProductTypeServiceImpl productTypeServiceImpl;
+
+    @Autowired
+    private DataSource dataSource;
+
+    @Test
+    public void poolTest() throws SQLException {
+        log.info("连接池：" + dataSource.getConnection());
+    }
 
     @Test
     public void contextLoads() {
@@ -64,5 +79,11 @@ public class V17ProductServiceApplicationTests {
         vo.setProduct(pro);
         vo.setProductDesc("怎么都摔不坏的手机");
         log.info("插入的主键值 = " + productServiceImpl.add(vo));
+    }
+
+    @Test
+    public void findProductTypeList(){
+        List<TProductType> productTypeList = productTypeServiceImpl.list();
+        Assert.assertNotNull(productTypeList);
     }
 }
