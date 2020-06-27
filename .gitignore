@@ -3,3 +3,12 @@
 /v17-basic/v17-commons/target/
 /v17-basic/v17-entity/target/
 /v17-basic/v17-mapper/target/
+.idea
+*.iws
+*.iml
+*.ipr
+/target/
+/.mvn/
+*.md
+mvnw
+mvnw.cmd

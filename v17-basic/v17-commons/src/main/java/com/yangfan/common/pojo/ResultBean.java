@@ -3,6 +3,8 @@ package com.yangfan.common.pojo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @author yangfan
  * @version 1.0
@@ -10,7 +12,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
-public class ResultBean<T> {
+public class ResultBean<T> implements Serializable {
 
     private String statusCode;
     private T data;

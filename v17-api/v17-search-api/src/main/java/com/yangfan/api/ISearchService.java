@@ -36,4 +36,13 @@ public interface ISearchService {
      * @return
      */
     public ResultBean queryByKeywords(String keywords);
+
+    /**
+     * 搜索：分页查询
+     * @param keywords
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+    ResultBean queryByKeywords(String keywords, Integer pageIndex, Integer pageSize);
 }

@@ -2,6 +2,7 @@ package com.yangfan.v17searchservice;
 
 import com.yangfan.api.ISearchService;
 import com.yangfan.common.pojo.ResultBean;
+import com.yangfan.entity.TProduct;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -16,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -36,14 +38,16 @@ public class V17SearchServiceApplicationTests {
         //1. 创建document对象
         SolrInputDocument document = new SolrInputDocument();
         //2. 设置相关的属性值
-        document.setField("id", 3);
-        document.setField("product_name", "华为P40Pro");
+        document.setField("id", 250);
+        document.setField("product_name", "华为P40Pro250");
         document.setField("product_price", 6488);
         document.setField("sale_point", "麒麟990 5G SoC芯片 5000万超感知徕卡四摄 50倍数字变焦");
         document.setField("product_images", "123");
         //3. 保存
-        solrClient.add(document);
-        solrClient.commit();
+//        solrClient.add(document);
+//        solrClient.commit();
+        solrClient.add("collection2", document);
+        solrClient.commit("collection2");
     }
 
     @Test
@@ -77,5 +81,14 @@ public class V17SearchServiceApplicationTests {
     public void synById(){
         ResultBean resultBean = searchService.synById(11L);
         System.out.println(resultBean.getData());
+    }
+
+    @Test
+    public void queryByKeywords(){
+        ResultBean resultBean = searchService.queryByKeywords("小米");
+        List<TProduct> products = (List<TProduct>) resultBean.getData();
+        for(TProduct product : products){
+            System.out.println(product.getName());
+        }
     }
 }
