@@ -4,7 +4,10 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.github.pagehelper.PageInfo;
 import com.yangfan.api.IProductService;
 import com.yangfan.api.vo.ProductVO;
+import com.yangfan.common.constant.MQConstant;
 import com.yangfan.entity.TProduct;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +24,9 @@ public class ProductController {
 
     @Reference
     private IProductService productService;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @RequestMapping("get/{id}")
     @ResponseBody
@@ -45,6 +51,10 @@ public class ProductController {
     @PostMapping("add")
     public String add(ProductVO productVO){
         Long newId = productService.add(productVO);
+
+        //发送一个消息到消息中间件
+        rabbitTemplate.convertAndSend(MQConstant.EXCHANGE.CENTER_PRODUCT_EXCHANGE, "product.add", newId);
+        rabbitTemplate.convertAndSend(MQConstant.EXCHANGE.CENTER_PRODUCT_EXCHANGE, "product.delete", newId);
         return "redirect:/product/page/1/2";
     }
 }

@@ -3,11 +3,16 @@
 /v17-basic/v17-commons/target/
 /v17-basic/v17-entity/target/
 /v17-basic/v17-mapper/target/
-.idea
+/.idea
 *.iws
 *.iml
 *.ipr
 /target/
+/v17-api/target
+/v17-web/target
+/v17-service/target
+/v17-temp/v17-rabbitmq-java/target
+/v17-api/v17-search-api/target
 /.mvn/
 *.md
 mvnw

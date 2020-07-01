@@ -1,0 +1,10 @@
+server:
+  port: 9092
+dubbo:
+  application:
+    name: web-item
+  registry:
+    protocol: zookeeper
+    address: 192.168.149.128:2181
+  consumer:
+    check: false

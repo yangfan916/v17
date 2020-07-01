@@ -14,9 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -43,6 +41,13 @@ public class V17ItemApplicationTests {
         //保存对象
         Product product = new Product("12345", 9999l, new Date());
         data.put("product", product);
+
+        List<Product> list = new ArrayList<>();
+        list.add(new Product("华为", 5000L, new Date()));
+        list.add(new Product("小米", 4000L, new Date()));
+        data.put("list", list);
+
+        data.put("age", 27);
         //3.模板+数据结合 输出
         FileWriter fileWriter = new FileWriter("D:\\IdeaProjects\\v17\\v17-web\\v17-item\\src\\main\\resources\\static\\f.html");
         template.process(data, fileWriter);

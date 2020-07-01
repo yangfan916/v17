@@ -11,6 +11,12 @@ dubbo:
 spring:
   thymeleaf:
     cache: false
+  rabbitmq:
+    host: 192.168.149.128
+    port: 5672
+    username: yangfan
+    password: 123456
+    virtual-host: yf_mq
 #配置FastDFS连接信息
 fdfs:
   so-timeout: 1500

@@ -130,7 +130,7 @@
                         <div class="form-group">
                             <label for="productDescEdit" class="col-sm-2 control-label">商品描述</label>
                             <div class="col-sm-10" id="productDescEdit">
-                                <p>输入商品描述信息......</p>
+                                <!--<p>输入商品描述信息......</p>-->
                             </div>
                             <input id="productDesc" type="hidden" name="productDesc">
                         </div>
@@ -162,7 +162,7 @@
                 uploadScript: "file/upload",
                 fileObjName : "file",
                 onUploadComplete: function (file, data) {
-                    alert("The file " + file.name + " uploaded successfully.");
+                    //alert("The file " + file.name + " uploaded successfully.");
                     //console.log(data);
                     var result = JSON.parse(data);
                     //图片的回显
