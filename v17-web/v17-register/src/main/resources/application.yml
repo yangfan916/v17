@@ -1,0 +1,19 @@
+server:
+  port: 9094
+dubbo:
+  application:
+    name: web-register
+  registry:
+    protocol: zookeeper
+    address: 192.168.149.128:2181
+  consumer:
+    check: false
+spring:
+  thymeleaf:
+    cache: false
+  rabbitmq:
+    host: 192.168.149.128
+    port: 5672
+    username: yangfan
+    password: 123456
+    virtual-host: yf_mq

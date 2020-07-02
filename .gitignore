@@ -14,6 +14,7 @@
 /v17-temp/v17-rabbitmq-java/target
 /v17-temp/v17-redis/target
 /v17-api/v17-search-api/target
+/v17-api/v17-user-api/target
 /.mvn/
 *.md
 mvnw

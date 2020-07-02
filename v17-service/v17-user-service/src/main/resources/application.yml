@@ -1,0 +1,35 @@
+server:
+  port: 8082
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/v17?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=false
+    username: root
+    password: W2zMlVXVVXuGy2O2nfTZnhw17zqF3pOJBWxAQ/IHcY5ijkgOjjtVoh7WmHlckSnBIGAofGm1npbor7LlU3zsCA==
+    druid:
+      initial-size: 10
+      max-active: 100
+      min-idle: 10
+      filter:
+        config:
+          enabled: true
+      connection-properties: config.decrypt=true;config.decrypt.key=${public-key}
+  redis:
+    host: 192.168.149.128
+    port: 6379
+    password: "0916"
+mybatis:
+  mapper-locations: classpath:/com/yf/mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+dubbo:
+  application:
+    name: user-service
+  registry:
+    protocol: zookeeper
+    address: 192.168.149.128:2181
+  protocol:
+    port: 28812
+
+public-key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAImhF4IDoKcH8ObtYrMiH/QZdfmMcRsWx//E6AewSRA7fnN1v/mfZ+v/QcBOjbfXqtZsJRL8dj/Jrv/fauEkHxECAwEAAQ==
