@@ -15,6 +15,10 @@ spring:
         config:
           enabled: true
       connection-properties: config.decrypt=true;config.decrypt.key=${public-key}
+  redis:
+    host: 192.168.149.128
+    port: 6379
+    password: "0916"
 mybatis:
   mapper-locations: classpath:/com/yf/mapper/*.xml
   configuration:

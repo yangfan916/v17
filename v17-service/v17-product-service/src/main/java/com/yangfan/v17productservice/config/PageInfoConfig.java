@@ -12,7 +12,7 @@ import java.util.Properties;
  * @description
  */
 //@Configuration
-public class CommonConfig {
+public class PageInfoConfig {
 
     @Bean
     public PageHelper getPageHelper(){
