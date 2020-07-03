@@ -28,4 +28,10 @@ public interface IUserService extends IBaseService<TUser> {
      * @return
      */
     public ResultBean checkEmailIsExists(String email);
+    /**
+     * 生成验证码
+     * @param identification
+     * @return
+     */
+    public ResultBean generateCode(String identification);
 }

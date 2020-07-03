@@ -45,7 +45,8 @@ public class UserController {
     @PostMapping("generateCode/{identification}")
     @ResponseBody
     public ResultBean generateCode(@PathVariable("identification") String identification ){
-        return null;
+
+        return userService.generateCode(identification);
     }
 
     /**

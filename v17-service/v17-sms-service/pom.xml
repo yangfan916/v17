@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.yangfan</groupId>
-    <artifactId>v17-user-service</artifactId>
+    <artifactId>v17-sms-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>v17-user-service</name>
+    <name>v17-sms-service</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
@@ -25,11 +25,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
@@ -42,8 +37,14 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-core</artifactId>
+            <version>4.4.6</version>
+        </dependency>
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-ecs</artifactId>
+            <version>4.17.6</version>
         </dependency>
 
         <dependency>
@@ -51,15 +52,16 @@
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
         <dependency>
-            <groupId>com.yangfan</groupId>
-            <artifactId>v17-mapper</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.6</version>
         </dependency>
 
         <dependency>
             <groupId>com.yangfan</groupId>
-            <artifactId>v17-user-api</artifactId>
+            <artifactId>v17-sms-api</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

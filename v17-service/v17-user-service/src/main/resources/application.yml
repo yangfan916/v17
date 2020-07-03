@@ -19,6 +19,12 @@ spring:
     host: 192.168.149.128
     port: 6379
     password: "0916"
+  rabbitmq:
+    host: 192.168.149.128
+    port: 5672
+    username: yangfan
+    password: 123456
+    virtual-host: yf_mq
 mybatis:
   mapper-locations: classpath:/com/yf/mapper/*.xml
   configuration:

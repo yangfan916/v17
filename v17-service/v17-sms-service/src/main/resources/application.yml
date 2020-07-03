@@ -1,0 +1,17 @@
+server:
+  port: 8083
+spring:
+  rabbitmq:
+    host: 192.168.149.128
+    port: 5672
+    username: yangfan
+    password: 123456
+    virtual-host: yf_mq
+dubbo:
+  application:
+    name: sms-service
+  registry:
+    protocol: zookeeper
+    address: 192.168.149.128:2181
+  protocol:
+    port: 28813
