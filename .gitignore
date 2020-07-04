@@ -17,6 +17,7 @@
 /v17-api/v17-search-api/target
 /v17-api/v17-user-api/target
 /v17-api/v17-sms-api/target
+/v17-api/v17-email-api/target
 /.mvn/
 *.md
 mvnw
