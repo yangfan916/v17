@@ -34,4 +34,13 @@ public interface IUserService extends IBaseService<TUser> {
      * @return
      */
     public ResultBean generateCode(String identification);
+
+    /**
+     * 用户登录检查
+     * @param user
+     * @return
+     */
+    ResultBean checkLogin(TUser user);
+
+    ResultBean checkIsLogin(String userTokenUUID);
 }

@@ -16,6 +16,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -66,6 +67,34 @@ public class UserServiceImp extends IBaseServiceImp<TUser> implements IUserServi
         rabbitTemplate.convertAndSend("sms-exchange","sms-code", map);
 
         return new ResultBean("200", "ok");
+    }
+
+    @Override
+    public ResultBean checkLogin(TUser user) {
+        //1.根据用户输入的账号（手机/邮箱）信息去查询
+         TUser userdb = userMapper.selectByIdentification(user.getUsername());
+         //2.根据查询出来的密码信息进行比较
+         if (userdb != null){
+             if (user.getPassword().equals(userdb.getPassword())){
+                 //往redis保存凭证信息,并设置过期时间为30分钟
+                 String uuid = UUID.randomUUID().toString();
+                 redisTemplate.opsForValue().set("user:token:" + uuid, userdb.getUsername(), 30, TimeUnit.MINUTES);
+                 //return new ResultBean("200", userdb.getUsername());
+                 return new ResultBean("200", uuid);
+             }
+         }
+        return new ResultBean("404", null);
+    }
+
+    @Override
+    public ResultBean checkIsLogin(String userTokenUUID) {
+        String username = (String) redisTemplate.opsForValue().get(userTokenUUID);
+        if (username != null){
+            //刷新凭证的有效期
+            redisTemplate.expire(userTokenUUID, 30, TimeUnit.MINUTES);
+            return new ResultBean("200", username);
+        }
+        return new ResultBean("404", null);
     }
 
     @Override

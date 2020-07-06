@@ -1443,6 +1443,17 @@
                 console.log(data);
             }
         })
+
+        //异步调用登录状态查询接口，验证用户登录状态
+        $.ajax({
+            url: "http://localhost:9095/sso/checkIsLogin",
+            crossDomain: true,
+            xhrFields: {withCredentials:true},
+            success: function (data1) {
+                console.log("========")
+                console.log(data1)
+            }
+        })
     })
 </script>
 </body>

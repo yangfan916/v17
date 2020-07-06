@@ -1,8 +1,8 @@
 server:
-  port: 9091
+  port: 9095
 dubbo:
   application:
-    name: web-index
+    name: web-sso
   registry:
     protocol: zookeeper
     address: 192.168.149.128:2181

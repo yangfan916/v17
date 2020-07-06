@@ -8,4 +8,5 @@ import com.yangfan.entity.TUser;
  */
 public interface TUserMapper extends IBaseDao<TUser> {
 
+    TUser selectByIdentification(String username);
 }
