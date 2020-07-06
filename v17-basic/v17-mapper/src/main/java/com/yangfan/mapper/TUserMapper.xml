@@ -16,7 +16,7 @@
   </sql>
 
   <select id="selectByIdentification" resultMap="BaseResultMap">
-    SELECT username,password FROM t_user WHERE flag=1 AND phone=#{username} OR email=#{username}
+    SELECT id,username,password FROM t_user WHERE flag=1 AND phone=#{username} OR email=#{username}
   </select>
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >

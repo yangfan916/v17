@@ -32,6 +32,9 @@ mybatis:
 dubbo:
   application:
     name: user-service
+    qos-enable: true  #是否启动QoS 默认true
+    qos-port: 33333   #启动QoS绑定的端口 默认22222
+    qos-accept-foreign-ip: false  #是否允许远程访问 默认false
   registry:
     protocol: zookeeper
     address: 192.168.149.128:2181

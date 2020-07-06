@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.yangfan.api.IUserService;
 import com.yangfan.common.pojo.ResultBean;
 import com.yangfan.entity.TUser;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  * @version 1.0
  * @description
  */
+@Slf4j
 @Controller
 @RequestMapping("sso")
 public class SSOController {
@@ -37,6 +39,7 @@ public class SSOController {
             //写cookie给客户端，保存凭证
             //1.获取uuid
             String uuid = (String) resultBean.getData();
+            log.info("====jwtToken = " + uuid);
             //2.创建cookie对象
             Cookie cookie = new Cookie("user_token", uuid);
             cookie.setPath("/");
@@ -52,8 +55,20 @@ public class SSOController {
 
     @GetMapping("logout")
     @ResponseBody
-    public ResultBean logout(HttpServletRequest request){
-        request.getSession().removeAttribute("user");
+    public ResultBean logout(@CookieValue(name = "user_token", required = false) String token,
+                             HttpServletResponse response){
+        //request.getSession().removeAttribute("user");
+
+        if(token != null){
+            //创建cookie对象
+            Cookie cookie = new Cookie("user_token", token);
+            cookie.setPath("/");
+            cookie.setHttpOnly(true);
+            //将cookie清除，设置有效期为0
+            cookie.setMaxAge(0);
+            //3.写cookie到客户端
+            response.addCookie(cookie);
+        }
         return new ResultBean("200", true);
     }
 
@@ -92,8 +107,11 @@ public class SSOController {
         //1.从cookie中获取user_token的值
         if(uuid != null){
             //2.去redis中查询是否存在该凭证信息
-            String userTokenUUID = "user:token:" + uuid;
-            ResultBean resultBean = userService.checkIsLogin(userTokenUUID);
+//            String userTokenUUID = "user:token:" + uuid;
+//            ResultBean resultBean = userService.checkIsLogin(userTokenUUID);
+
+            ResultBean resultBean = userService.checkIsLogin(uuid);
+
             return resultBean;
         }
 

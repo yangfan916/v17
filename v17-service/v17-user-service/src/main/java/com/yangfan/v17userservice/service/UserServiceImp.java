@@ -9,9 +9,13 @@ import com.yangfan.common.pojo.ResultBean;
 import com.yangfan.common.utils.CodeUtils;
 import com.yangfan.entity.TUser;
 import com.yangfan.mapper.TUserMapper;
+import com.yangfan.v17userservice.util.JwtUtils;
+import io.jsonwebtoken.Claims;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -24,6 +28,7 @@ import java.util.concurrent.TimeUnit;
  * @version 1.0
  * @description
  */
+@Slf4j
 @Service
 public class UserServiceImp extends IBaseServiceImp<TUser> implements IUserService {
 
@@ -32,6 +37,9 @@ public class UserServiceImp extends IBaseServiceImp<TUser> implements IUserServi
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Resource(name = "myStringRedisTemplate")
     private RedisTemplate<String, Object> redisTemplate;
@@ -75,12 +83,21 @@ public class UserServiceImp extends IBaseServiceImp<TUser> implements IUserServi
          TUser userdb = userMapper.selectByIdentification(user.getUsername());
          //2.根据查询出来的密码信息进行比较
          if (userdb != null){
-             if (user.getPassword().equals(userdb.getPassword())){
+//             if (user.getPassword().equals(userdb.getPassword())){
+             if( passwordEncoder.matches(user.getPassword(), userdb.getPassword()) ){
                  //往redis保存凭证信息,并设置过期时间为30分钟
-                 String uuid = UUID.randomUUID().toString();
-                 redisTemplate.opsForValue().set("user:token:" + uuid, userdb.getUsername(), 30, TimeUnit.MINUTES);
+//                 String uuid = UUID.randomUUID().toString();
+//                 redisTemplate.opsForValue().set("user:token:" + uuid, userdb.getUsername(), 30, TimeUnit.MINUTES);
                  //return new ResultBean("200", userdb.getUsername());
-                 return new ResultBean("200", uuid);
+
+                 //生成令牌
+                 JwtUtils jwtUtils = new JwtUtils();
+                 jwtUtils.setSecretKey("java1907");
+                 jwtUtils.setTtl(1000*60*30);
+
+                 String jwtToken = jwtUtils.createJwtToken(userdb.getId().toString(), userdb.getUsername());
+
+                 return new ResultBean("200", jwtToken);
              }
          }
         return new ResultBean("404", null);
@@ -88,13 +105,25 @@ public class UserServiceImp extends IBaseServiceImp<TUser> implements IUserServi
 
     @Override
     public ResultBean checkIsLogin(String userTokenUUID) {
-        String username = (String) redisTemplate.opsForValue().get(userTokenUUID);
-        if (username != null){
-            //刷新凭证的有效期
-            redisTemplate.expire(userTokenUUID, 30, TimeUnit.MINUTES);
+//        String username = (String) redisTemplate.opsForValue().get(userTokenUUID);
+//        if (username != null){
+//            //刷新凭证的有效期
+//            redisTemplate.expire(userTokenUUID, 30, TimeUnit.MINUTES);
+//            return new ResultBean("200", username);
+//        }
+//        return new ResultBean("404", null);
+
+        JwtUtils jwtUtils = new JwtUtils();
+        jwtUtils.setSecretKey("java1907");
+
+        try{
+            Claims claims = jwtUtils.parseJwtToken(userTokenUUID);
+            String username = claims.getSubject();
             return new ResultBean("200", username);
+        }catch (RuntimeException e){
+            //如果针对不同的异常需要区分对待，那么就应该写多个catch分别处理
+            return new ResultBean("404", null);
         }
-        return new ResultBean("404", null);
     }
 
     @Override
