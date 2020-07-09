@@ -41,4 +41,12 @@ public interface ICartService {
      * @return
      */
     ResultBean query(String token);
+
+    /**
+     * 登录之后购物车合并
+     * @param nologinKey
+     * @param loginKey
+     * @return
+     */
+    ResultBean merge(String nologinKey, String loginKey);
 }

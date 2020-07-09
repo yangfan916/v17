@@ -20,12 +20,12 @@ spring:
     host: 192.168.149.128
     port: 6379
     password: "0916"
-#  rabbitmq:
-#    host: 192.168.149.128
-#    port: 5672
-#    username: yangfan
-#    password: 123456
-#    virtual-host: yf_mq
+  rabbitmq:
+    host: 192.168.149.128
+    port: 5672
+    username: yangfan
+    password: 123456
+    virtual-host: yf_mq
 mybatis:
   mapper-locations: classpath:/com/yf/mapper/*.xml
   configuration:
@@ -33,9 +33,9 @@ mybatis:
 dubbo:
   application:
     name: user-service
-    qos-enable: true  #ÊÇ·ñÆô¶¯QoS Ä¬ÈÏtrue
-    qos-port: 33333   #Æô¶¯QoS°ó¶¨µÄ¶Ë¿Ú Ä¬ÈÏ22222
-    qos-accept-foreign-ip: false  #ÊÇ·ñÔÊĞíÔ¶³Ì·ÃÎÊ Ä¬ÈÏfalse
+    qos-enable: true  #æ˜¯å¦å¯åŠ¨QoS é»˜è®¤true
+    qos-port: 44444   #å¯åŠ¨QoSç»‘å®šçš„ç«¯å£ é»˜è®¤22222
+    qos-accept-foreign-ip: false  #æ˜¯å¦å…è®¸è¿œç¨‹è®¿é—® é»˜è®¤false
   registry:
     protocol: zookeeper
     address: 192.168.149.128:2181
