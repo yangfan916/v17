@@ -65,7 +65,7 @@ public class SSOController {
             rabbitTemplate.convertAndSend("sso-exchange", "user.login", map);
 
             //request.getSession().setAttribute("user", user.getUsername());
-            return "redirect:http://localhost:9091";
+            return "redirect:http://index.yf.com:9091";
         }
         return "index";
     }
